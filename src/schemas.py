@@ -38,6 +38,14 @@ class Verdict(str, Enum):
     REVISE = "revise"
 
 
+class Phase(str, Enum):
+    """AAA dramatic structure: the wave."""
+
+    ANTICIPATION = "anticipation"  # build the question before the answer
+    ACTION = "action"              # deliver cleanly and briefly
+    ABSORPTION = "absorption"      # hold while the reader processes
+
+
 class AgentName(str, Enum):
     DIRECTOR = "director"
     WRITER = "writer"
@@ -72,14 +80,33 @@ class DialogueAnchor(StrictModel):
     keep_verbatim: bool = True
 
 
-class DirectingNote(StrictModel):
-    """Flashlight/wave instruction: where the reader's attention points,
-    and how long it holds."""
+class Riddle(StrictModel):
+    """The question the beat makes the reader parse on their own."""
 
-    focus: str = Field(..., description="What the flashlight is pointed at")
-    hold: str = Field(
-        ..., description="How long / why it holds, e.g. 'linger through the silence'"
+    question: str = Field(..., description="What the reader is made to wonder")
+    posed_by: str = Field(..., description="The observable evidence that poses it")
+    reveal: str = Field(..., description="The moment the answer lands")
+
+
+class StagingElement(StrictModel):
+    """A concrete piece of texture, admitted only with a declared function."""
+
+    element: str = Field(..., description="Observable detail: place, prop, physical business")
+    function: str = Field(
+        ..., description="Why it is in the flashlight: what it stages, plants, or characterizes"
     )
+
+
+class Movement(StrictModel):
+    """One shot in the beat's sequence. The Writer executes movements
+    in order, spending roughly word_budget on each."""
+
+    order: int
+    phase: Phase
+    focus: str = Field(..., description="What the flashlight points at")
+    content: str = Field(..., description="What observably happens, in camera terms")
+    staging: list[StagingElement] = Field(default_factory=list)
+    word_budget: int = Field(..., ge=10, description="Approximate camera time in words")
 
 
 class BeatSpec(StrictModel):
@@ -91,7 +118,8 @@ class BeatSpec(StrictModel):
     exiting_state: str = Field(..., description="What must be true when the beat ends")
     callbacks: list[Callback] = Field(default_factory=list)
     dialogue_anchors: list[DialogueAnchor] = Field(default_factory=list)
-    directing_notes: list[DirectingNote] = Field(default_factory=list)
+    riddle: Riddle | None = None
+    movements: list[Movement] = Field(default_factory=list)
     target_words_min: int = 300
     target_words_max: int = 700
     skeleton_excerpt: str = Field(..., description="The raw skeleton text this beat covers")
@@ -235,11 +263,24 @@ if __name__ == "__main__":
         dialogue_anchors=[
             DialogueAnchor(line="Behind the pillar first, then into the window", speaker="fox"),
         ],
-        directing_notes=[
-            DirectingNote(
-                focus="the blade sliding out, sun on dark metal",
-                hold="hold through the full silence before anyone moves",
-            ),
+        riddle=Riddle(
+            question="Will the sword answer the cat?",
+            posed_by="Firebird's ultimatum; fox's whispered escape route",
+            reveal="Soft click; the blade slides out a third of its length",
+        ),
+        movements=[
+            Movement(order=1, phase=Phase.ANTICIPATION,
+                     focus="the walk to the sword",
+                     content="Cat crosses the room slowly; fox whispers the escape route",
+                     word_budget=90),
+            Movement(order=2, phase=Phase.ACTION,
+                     focus="the draw",
+                     content="Paw on handle; slight pull; soft click; a third of the blade",
+                     word_budget=40),
+            Movement(order=3, phase=Phase.ABSORPTION,
+                     focus="the silence",
+                     content="Nobody speaks or moves; sun on dark metal; cat resheathes",
+                     word_budget=80),
         ],
         skeleton_excerpt="Cat takes the sword from the floor and puts his right paw on the handle...",
     )

@@ -1,0 +1,54 @@
+{
+  "world": {
+    "setting": "A royal palace. Throne room with pillars and tall windows; long corridors.",
+    "canon_facts": [
+      "The magic sword cannot be drawn by just anyone; it refuses most who try.",
+      "The sword drew for the cat: soft click, effortless, one third of the blade, dark polished metal.",
+      "Stealing the magic sword is a capital crime punishable by death.",
+      "The Firebird holds authority in the palace and commands the guards.",
+      "The Firebird's eyes glow amber when angered and grow cold when insulted.",
+      "The sword and the crown are now in the Firebird's keeping."
+    ]
+  },
+  "characters": {
+    "cat": {
+      "role": "protagonist",
+      "voice": "dry, economical, understated; sighs instead of arguing; deflects with plain statements",
+      "traits": [
+        "improvises lies badly but commits to them ('It called to me')",
+        "physical dignity matters to him; recovers quickly when unbalanced",
+        "quietly astonished that the blade answered him"
+      ]
+    },
+    "fox": {
+      "role": "companion, trickster",
+      "voice": "fast, deflecting, opportunistic; jokes under pressure",
+      "traits": [
+        "steals for profit but folds when outmatched",
+        "plans escape routes reflexively ('behind the pillar first, then into the window')",
+        "wears defeat theatrically ('You're a monster')"
+      ]
+    },
+    "firebird": {
+      "role": "authority",
+      "voice": "calm, formal, precise; menace delivered quietly; dry wit ('Screamed, more likely. But yes.')",
+      "traits": [
+        "enforces the law but exercises judgment",
+        "notices everything (takes the crown back in passing)",
+        "keeps dangerous things 'available. When needed.'"
+      ]
+    }
+  },
+  "relationships": [
+    "cat and fox are companions; cat covers for fox even while disapproving",
+    "firebird tolerates the pair with wary, amused vigilance"
+  ],
+  "style": {
+    "audience": "middle grade",
+    "register": "wry, warm, understated humor; menace never graphic",
+    "notes": [
+      "dialogue carries the scenes; narration stays light",
+      "animals are people-shaped in behavior; do not over-explain the magic"
+    ]
+  }
+}

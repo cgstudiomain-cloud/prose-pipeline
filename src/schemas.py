@@ -46,6 +46,14 @@ class Phase(str, Enum):
     ABSORPTION = "absorption"      # hold while the reader processes
 
 
+class Tempo(str, Enum):
+    """Words per event - narration density. Independent of phase."""
+
+    SLOW = "slow"      # camera lingers: long sentences, micro-detail
+    MEDIUM = "medium"
+    FAST = "fast"      # boom boom boom: one event per sentence, white space
+
+
 class AgentName(str, Enum):
     DIRECTOR = "director"
     WRITER = "writer"
@@ -106,6 +114,12 @@ class Movement(StrictModel):
     focus: str = Field(..., description="What the flashlight points at")
     content: str = Field(..., description="What observably happens, in camera terms")
     staging: list[StagingElement] = Field(default_factory=list)
+    handoff: str = Field(
+        "", description="The unresolved thing that carries attention into the next movement (or next beat, for the last movement)"
+    )
+    tempo: Tempo = Field(
+        Tempo.MEDIUM, description="Narration density for this movement - the beat's tempo contour must vary"
+    )
     word_budget: int = Field(..., ge=10, description="Approximate camera time in words")
 
 

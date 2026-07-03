@@ -26,7 +26,7 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field
 
 from src.client import ModelClient, load_config, new_run_dir
-from src.schemas import BeatSpec, ContextPacket
+from src.schemas import BeatSpec, ContextPacket, Phase
 
 BEAT_MARKER = re.compile(r"^===\s*BEAT:\s*(?P<beat_id>[\w-]+)\s*===\s*$", re.MULTILINE)
 
@@ -47,6 +47,12 @@ class BeatPlan(BaseModel):
     threads: list[str] = Field(
         default_factory=list,
         description="Plants and payoffs touching this beat, e.g. 'plant: sword refuses fox (pays off beat 03)'",
+    )
+    chapter_phase: Phase = Field(
+        ..., description="This beat's role in the chapter-scale wave"
+    )
+    peak: str = Field(
+        ..., description="The beat's single peak moment, in camera terms"
     )
 
 
@@ -118,6 +124,11 @@ For each beat, in order:
   Grows monotonically as beats reveal things.
 - threads: every plant and payoff that touches this beat, marked as
   'plant: ... (pays off in beat X)' or 'payoff: ... (planted in beat X)'.
+- chapter_phase and peak: the chapter is itself a wave. Decide which
+  beat delivers the chapter's central action, which beats build
+  anticipation toward it, and which absorb it - assign each beat its
+  chapter_phase accordingly. Then name each beat's single peak moment
+  in camera terms: the one moment the beat exists to deliver.
 
 All states in camera terms: observable facts only, no interior states.
 Stay strictly inside the skeleton's events.
@@ -146,6 +157,34 @@ list. Each movement has a phase from the AAA system:
   never rushed.
 Give each movement a word_budget (camera time). Budgets must sum to
 roughly the beat's target word range. A typical beat is 4-8 movements.
+
+The movements form ONE wave rising to the beat's peak (given in the
+chapter plan): anticipation movements build toward it, the action
+movement delivers it lean, absorption follows and holds. Micro-waves
+inside are allowed but stay subordinate to the main wave - never
+alternate phases mechanically.
+
+Every movement gets a tempo - slow, medium, or fast: the narration
+density, independent of phase (banter is fast action; a blade drawn in
+silence is slow action). Design the beat's tempo CONTOUR: speeds must
+vary across the movements, trading slow against fast so the beat rides
+like a wave, not a flat line. A beat where every movement shares one
+tempo is a defect.
+
+Every movement declares its handoff: the unresolved thing - open
+question, unfinished motion, unanswered line - that carries the
+reader's attention into the next movement. The final movement's
+handoff is the beat's exit hook into the next beat. A question may
+only resolve while another is open or opening; attention is released
+only at the chapter's final beat. If a movement has no honest handoff,
+the movement boundary is wrong - merge or re-cut.
+
+Every movement's content must be written as a causal chain in strict
+stimulus -> response order: the cause on the page before the effect,
+the character reacting only after the stimulus, objects appearing when
+a character's attention lands on them - never as advance decor. If two
+sentences of content could be swapped without breaking anything, the
+chain is broken.
 
 PASS 3 - STAGE. Invent concrete texture for each movement: places,
 props, physical business. You MAY invent texture; you may NEVER invent
@@ -248,12 +287,22 @@ def verify_beat(out: BeatOutput, beat_id: str) -> None:
     if not (lo <= total <= hi):
         print(f"director: WARNING {beat_id} budgets sum to {total}, "
               f"target {spec.target_words_min}-{spec.target_words_max}")
+    for m in spec.movements:
+        if not m.handoff.strip():
+            print(f"director: WARNING {beat_id} movement {m.order} has no handoff")
+    if len(spec.movements) >= 3 and len({m.tempo for m in spec.movements}) == 1:
+        print(f"director: WARNING {beat_id} tempo contour is flat "
+              f"(all movements {spec.movements[0].tempo.value})")
 
 
 # ------------------------------------------------------------ pipeline
 
 
-def run_director(skeleton_path: str | Path, run_dir: Path | None = None) -> Path:
+def run_director(
+    skeleton_path: str | Path,
+    run_dir: Path | None = None,
+    only_beat: str | None = None,
+) -> Path:
     skeleton_text = Path(skeleton_path).read_text(encoding="utf-8")
     beats = split_beats(skeleton_text)
     expected_ids = [bid for bid, _ in beats]
@@ -279,11 +328,15 @@ def run_director(skeleton_path: str | Path, run_dir: Path | None = None) -> Path
         print(f"director: chapter plan written ({len(plan.beats)} beats)")
 
     # ---- pass 2: one call per beat (each beat a checkpoint)
+    if only_beat is not None and only_beat not in expected_ids:
+        raise ValueError(f"unknown beat_id {only_beat!r}; have {expected_ids}")
     for beat_id, excerpt in beats:
+        if only_beat is not None and beat_id != only_beat:
+            continue
         beat_dir = run_dir / "beats" / beat_id
         spec_path = beat_dir / "01_beat_spec.json"
         packet_path = beat_dir / "02_context_packet.json"
-        if spec_path.exists() and packet_path.exists():
+        if only_beat is None and spec_path.exists() and packet_path.exists():
             print(f"director: {beat_id} already specced, skipping")
             continue
         out = client.call_structured(
@@ -305,6 +358,11 @@ def run_director(skeleton_path: str | Path, run_dir: Path | None = None) -> Path
 
 
 if __name__ == "__main__":
-    if len(sys.argv) not in (2, 3):
-        sys.exit("usage: uv run python -m src.agents.director <skeleton_file> [existing_run_dir]")
-    run_director(sys.argv[1], Path(sys.argv[2]) if len(sys.argv) == 3 else None)
+    if len(sys.argv) not in (2, 3, 4):
+        sys.exit("usage: uv run python -m src.agents.director "
+                 "<skeleton_file> [existing_run_dir] [beat_id]")
+    run_director(
+        sys.argv[1],
+        Path(sys.argv[2]) if len(sys.argv) >= 3 else None,
+        sys.argv[3] if len(sys.argv) == 4 else None,
+    )

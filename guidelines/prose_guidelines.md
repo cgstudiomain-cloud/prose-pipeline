@@ -51,16 +51,29 @@ Canonical example of externalizing (interior -> evidence):
   The destination is never named by the narrator; the cat's behavior
   and words carry it.
 
-## 2. Flashlight — relevance
+## 2. Flashlight — attention is directed, and never released
 
-Every detail must earn its place. A detail earns its place by doing at
-least one of: setting up a payoff, paying off a setup, characterizing
-through action, or staging space the action is about to use. A detail
-that does none of these is cut, however pretty.
+The flashlight does three jobs:
 
-The flashlight points at what matters for THIS beat (the directing
-notes say what that is). Everything outside the flashlight stays dark —
-no inventory of the room, no atmosphere for its own sake.
+SELECTION. Only what matters now is lit. A detail earns its place by
+doing at least one of: setting up a payoff, paying off a setup,
+characterizing through action, or staging space the action is about
+to use. Everything outside the flashlight stays dark — no inventory
+of the room, no atmosphere for its own sake.
+
+MOTION. The beam moves by handoff. Each lit thing points to the next:
+a sound points to its source, a look points to its object, a motion
+points to its completion, a line of dialogue demands its answer. The
+chain (rule 8) is the mechanism of this motion.
+
+CONTINUITY — the trap. At every point in the text something must be
+unresolved and pulling: an open question, an unfinished motion, an
+unanswered line. The moment nothing pulls, the reader is released —
+and a released reader can put the book down. So: a question may only
+resolve while another is open or opening. A reveal answers one
+question and poses the next in the same instant; the hooks overlap.
+Attention is released deliberately exactly once per chapter: at its
+end, as the exhale.
 
 ## 3. The wave — AAA structure (anticipation, action, absorption)
 
@@ -135,3 +148,52 @@ Sentence rhythm carries the wave:
 - absorption settles into medium, even sentences that hold.
 Uniform staccato is a defect equal to purple prose. Short sentences
 are an impact tool; used everywhere, they hit nothing.
+
+## 8. The chain — cause before effect
+
+A scene is a chain, not a list. Every narration unit is pulled onto
+the page by the one before it, linked by cause -> effect, stimulus ->
+response, attention -> object, or continuous motion.
+
+- Stimulus before response, always. A character stops BECAUSE of a
+  sound: the sound is on the page first, the stop second.
+- Objects enter when attention lands on them, never as advance decor.
+  The camera shows the doors when the character looks at the doors —
+  because the sound came from there.
+- Reactions are earned: nothing on the page reacts to something the
+  reader has not yet been given.
+
+The test is mechanical: if two adjacent sentences can be swapped
+without breaking anything, the chain is broken there — rewrite until
+order is load-bearing.
+
+Violation (list):
+"The corridor was long and dim. A thin line of light showed under the
+doors. The cat walked. Then he stopped. From behind the doors came a
+scrape."
+Fix (chain):
+"The cat walked down the corridor, paws silent on the stone. Somewhere
+ahead, metal scraped. He stopped, one foreleg still lifted. The sound
+came from behind the tall doors at the end of the corridor, where a
+thin line of light showed beneath them."
+
+## 9. Tempo — the roller-coaster
+
+Tempo is words per event: how much camera time each thing gets. It is
+a separate dial from the wave. Budget says how long the camera stays;
+tempo says how densely it records.
+
+- SLOW: the camera lingers. Long, connected sentences. Micro-detail of
+  observable action. Full paragraphs. The moment breathes.
+- MEDIUM: standard record.
+- FAST: boom. One event per sentence. One or two sentences per
+  paragraph. Bare dialogue without tags where speakers are clear.
+  White space is speed. Staging drops to the minimum the action needs.
+
+Tempo and phase combine freely: banter is fast action; a blade drawn
+in silence is slow action; a panicked scan of a room is fast
+absorption.
+
+The beat must have a tempo CONTOUR - slow into fast into slow, speeds
+trading off as the beat moves. A flat contour is mush: if every moment
+arrives at the same speed, none of them land.

@@ -64,7 +64,10 @@ of the room, no atmosphere for its own sake.
 MOTION. The beam moves by handoff. Each lit thing points to the next:
 a sound points to its source, a look points to its object, a motion
 points to its completion, a line of dialogue demands its answer. The
-chain (rule 8) is the mechanism of this motion.
+chain (rule 8) is the mechanism of this motion. When several things
+are visible at once, the camera registers them in SALIENCE order: the
+loud, the bright, the moving, and the out-of-place first. A golden
+crown on a fox's head is seen before the grip of his paws.
 
 CONTINUITY — the trap. At every point in the text something must be
 unresolved and pulling: an open question, an unfinished motion, an
@@ -122,6 +125,15 @@ is the engagement.
 - Never explain what a beat meant after it lands.
 - Trust the reader: if the evidence is staged right, the conclusion
   is theirs to make — and they will make it.
+- Pose unknowns AFFIRMATIVELY. "Fox was gripping something" is a
+  riddle; "Cat could not see what Fox was gripping" is a statement —
+  negated perception announces the narrator and kills the question.
+  Never narrate what a character does not see, hear, notice, or know.
+- The chain is character-driven: pursuit needs a why. A character has
+  a purpose; the riddle interrupts it; dismissal, insistence,
+  recognition pull him off his path. Externalize the why (a sniff and
+  a muttered destination; a wearied "Not again...") — never leave the
+  reader to assume idle curiosity.
 
 ## 7. Full resolution — evidence prose is still prose
 
@@ -148,6 +160,11 @@ Sentence rhythm carries the wave:
 - absorption settles into medium, even sentences that hold.
 Uniform staccato is a defect equal to purple prose. Short sentences
 are an impact tool; used everywhere, they hit nothing.
+
+Repetition discipline: repeating a sentence verbatim reads as lazy.
+Keep the fact, vary the wording ("The blade did not move." / "The
+blade stayed where it was." / "Nothing."). Verbatim repetition is
+reserved for deliberate refrain, used rarely and on purpose.
 
 ## 8. The chain — cause before effect
 
@@ -197,3 +214,16 @@ absorption.
 The beat must have a tempo CONTOUR - slow into fast into slow, speeds
 trading off as the beat moves. A flat contour is mush: if every moment
 arrives at the same speed, none of them land.
+
+## 10. Physical truth
+
+Bodies obey mechanics. No one delivers a line during maximal effort:
+a hard pull takes the whole body and all the breath. Effort has a
+sequence — set, pull, fail, release, exhale — and speech comes after
+the release, often on the exhale. Interleave dialogue and exertion in
+that rhythm; never overlap them.
+
+The same law governs space: characters cross rooms in real time, hold
+the positions the scene put them in, and speak at distances speech can
+cover. Blocking is continuous — a character is where the last shot
+left him until the camera moves him.

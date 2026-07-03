@@ -108,6 +108,39 @@ def load_bible(path: str | Path = "bible/bible.json") -> dict:
 
 # ------------------------------------------------------------- prompts
 
+FLOW_SYSTEM = """\
+You are the Director running a FLOW CHECK on a chapter skeleton,
+before any beats are specced. You propose; the human author decides.
+You never rewrite the skeleton - you produce a report.
+
+Walk the skeleton as a chain of reader attention - beads: question,
+answer that poses the next question, on and on. At every transition,
+test:
+- MOTIVATION: does each character have an externalized purpose? Is
+  every pursuit driven (recognition, need, interruption of a purpose),
+  never idle curiosity?
+- BEADS: is each question posed by evidence before its answer? Does
+  each answer open the next question? Where does the chain drop?
+- MICRO-BEATS: are reaction moments missing that the flow demands -
+  recognitions, freezes, double-takes, the pause before a reply?
+- BLOCKING: do entrances, exits, and positions work logistically?
+  Where does each character enter from, where do they stand, can they
+  speak at conversational distance? Does the end of each beat place
+  everyone where the next beat needs them?
+- STAKES AND SETUP: does each beat's ending set the stage - physically
+  and dramatically - for what follows?
+
+Report format, in markdown:
+For each finding: a numbered heading with the location (beat marker or
+quoted skeleton line), the GAP (one or two sentences), and PROPOSED
+INSERTION written in the skeleton's own terse register, ready to paste.
+Order findings by position in the skeleton. End with a short section
+listing anything that works well and should not be touched.
+
+You may propose events, micro-beats, and blocking. The human ratifies.
+Stay inside the story's world and characters as the bible defines them.
+"""
+
 PLAN_SYSTEM = """\
 You are the Director in a prose-production pipeline, pass one: chapter
 planning. You do not write prose and you do not spec beats yet. You
@@ -119,7 +152,9 @@ For each beat, in order:
   the characters' standing. Story function, not plot summary.
 - entering_state / exiting_state: the observable state of the world and
   characters. These MUST chain: beat N's exiting_state is beat N+1's
-  entering_state, word-compatible, no gaps, no contradictions.
+  entering_state, word-compatible, no gaps, no contradictions. An
+  entering_state contains NO new events - anything that happens
+  belongs inside the beat's movements, not at its threshold.
 - reader_knows_entering: the facts the reader holds as the beat opens.
   Grows monotonically as beats reveal things.
 - threads: every plant and payoff that touches this beat, marked as
@@ -184,7 +219,12 @@ stimulus -> response order: the cause on the page before the effect,
 the character reacting only after the stimulus, objects appearing when
 a character's attention lands on them - never as advance decor. If two
 sentences of content could be swapped without breaking anything, the
-chain is broken.
+chain is broken. When several things become visible at once, register
+them in salience order: the loud, bright, moving, out-of-place first.
+Respect physical truth in content: no dialogue during maximal effort -
+effort runs set, pull, fail, release, and speech follows the release.
+Pose unknowns affirmatively ("gripping something"), never as negated
+perception ("could not see what").
 
 PASS 3 - STAGE. Invent concrete texture for each movement: places,
 props, physical business. You MAY invent texture; you may NEVER invent
@@ -298,6 +338,26 @@ def verify_beat(out: BeatOutput, beat_id: str) -> None:
 # ------------------------------------------------------------ pipeline
 
 
+def run_flow_check(skeleton_path: str | Path) -> Path:
+    """Pass 0: flow-check the skeleton, write a human-facing report.
+    Proposes skeleton insertions; changes nothing."""
+    skeleton_text = Path(skeleton_path).read_text(encoding="utf-8")
+    bible, guidelines = load_bible(), load_guidelines()
+    run_dir = new_run_dir(label=f"flow_{Path(skeleton_path).stem}")
+    client = ModelClient(load_config(), run_dir)
+    report = client.call_text(
+        agent="director",
+        system=FLOW_SYSTEM,
+        user=(f"STORY BIBLE:\n{json.dumps(bible, indent=2, ensure_ascii=False)}\n\n"
+              f"GUIDELINE PACK (the flow ruleset lives here):\n{guidelines}\n\n"
+              f"SKELETON:\n{skeleton_text}"),
+    )
+    out = run_dir / "00_flow_report.md"
+    out.write_text(report, encoding="utf-8")
+    print(f"flow check -> {out}")
+    return out
+
+
 def run_director(
     skeleton_path: str | Path,
     run_dir: Path | None = None,
@@ -358,9 +418,15 @@ def run_director(
 
 
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "flow":
+        if len(sys.argv) != 3:
+            sys.exit("usage: uv run python -m src.agents.director flow <skeleton_file>")
+        run_flow_check(sys.argv[2])
+        sys.exit(0)
     if len(sys.argv) not in (2, 3, 4):
         sys.exit("usage: uv run python -m src.agents.director "
-                 "<skeleton_file> [existing_run_dir] [beat_id]")
+                 "<skeleton_file> [existing_run_dir] [beat_id]\n"
+                 "       uv run python -m src.agents.director flow <skeleton_file>")
     run_director(
         sys.argv[1],
         Path(sys.argv[2]) if len(sys.argv) >= 3 else None,

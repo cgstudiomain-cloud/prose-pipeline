@@ -85,6 +85,14 @@ Rules:
 - Use the staging elements given in each movement. Do not add staging
   of your own unless it has a clear function; texture without function
   is cut.
+- Staging FUNCTIONS are the Director's reasoning, never yours to
+  print: do not surface a function, a plant, or the connection it
+  documents in narration. If the evidence is staged, the reader makes
+  the connection - the narrator never does.
+- Physical truth: no dialogue during maximal effort. Set, pull, fail,
+  release, exhale - speech comes after the release. Pose unknowns
+  affirmatively ("Fox was gripping something"), never as negated
+  perception. Vary the wording of repeated facts.
 - Stay strictly inside the events of skeleton_excerpt. Movements and
   staging tell you HOW to shoot the scene, never license new plot or
   new dialogue that changes what happens.

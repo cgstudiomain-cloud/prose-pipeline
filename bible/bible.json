@@ -1,13 +1,14 @@
 {
   "world": {
-    "setting": "A royal palace. Throne room with pillars and tall windows; long corridors.",
+    "setting": "A royal palace. Throne room with pillars and tall windows, a main entrance of tall double doors, and a small service door to one side. Narrow, cluttered service corridors run behind it toward the kitchens.",
     "canon_facts": [
       "The magic sword cannot be drawn by just anyone; it refuses most who try.",
       "The sword drew for the cat: soft click, effortless, one third of the blade, dark polished metal.",
       "Stealing the magic sword is a capital crime punishable by death.",
       "The Firebird holds authority in the palace and commands the guards.",
       "The Firebird's eyes glow amber when angered and grow cold when insulted.",
-      "The sword and the crown are now in the Firebird's keeping."
+      "The sword and the crown are now in the Firebird's keeping.",
+      "Cat and Fox use the service corridors; the Firebird enters through the main doors."
     ]
   },
   "characters": {

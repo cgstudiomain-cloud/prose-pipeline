@@ -85,8 +85,13 @@ BANNED = [
     (r"\bevidently\b", "narrator judgment"),
     (r"\bobviously\b", "narrator judgment"),
     (r"\bno doubt\b", "narrator judgment"),
-    (r"\b(?:felt|wondered|realized|decided|knew|thought|hoped|wanted)\b",
+    (r"\b(?:felt|wondered|realized|decided|knew|thought|hoped|wanted|understood|recognized|recognised)\b",
      "interior state narrated"),
+    (r"\bappear(?:s|ed|ing)?\s+to\b", "hedge / interpretation"),
+    (r"\b(?:could|can)\s*(?:not|n't)\s+(?:yet\s+)?(?:see|hear|tell|make\s+out)\b",
+     "negated perception - pose the unknown affirmatively"),
+    (r"\b(?:did|does)\s*(?:not|n't)\s+(?:notice|see|hear|realize|recognize)\b",
+     "negated perception - pose the unknown affirmatively"),
 ]
 REVIEW = [
     (r"\blike\s+(?:a|an|the|something|someone)\b", "possible simile"),
@@ -187,6 +192,22 @@ def check_anchors(draft: Draft, spec: BeatSpec) -> list[Finding]:
     return out
 
 
+SENTENCE_RE = re.compile(r"[^.!?\n]+[.!?]")
+
+
+def check_repetition(prose: str) -> list[Finding]:
+    """Verbatim sentence repeats (>=4 words) read as lazy unless a
+    deliberate refrain."""
+    seen: dict[str, int] = {}
+    for m in SENTENCE_RE.finditer(prose):
+        sent = " ".join(m.group(0).split()).strip()
+        if len(sent.split()) >= 4:
+            seen[sent] = seen.get(sent, 0) + 1
+    return [Finding(check="repetition", severity="review",
+                    snippet=sent, note=f"verbatim x{n} - vary the wording or make the refrain deliberate")
+            for sent, n in seen.items() if n >= 2]
+
+
 def check_spec(spec: BeatSpec) -> list[Finding]:
     out = []
     for m in spec.movements:
@@ -225,6 +246,7 @@ def audit_beat(run_dir: Path, beat_id: str) -> AuditReport:
                 + check_anatomy(narration)
                 + check_length(draft, spec)
                 + check_anchors(draft, spec)
+                + check_repetition(draft.prose)
                 + check_spec(spec))
 
     report = AuditReport(

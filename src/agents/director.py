@@ -178,7 +178,59 @@ Plus works_well: a list of things that work and must not be touched.
 Text inside {braces} is RATIFIED AUTHOR INTENT - highest authority.
 Judge the events against it: if the events do not deliver what an
 annotation promises, that is a finding. Never propose changes to the
-annotations themselves.
+annotations themselves. And the stronger clause: when an annotation
+DELIBERATELY breaks a doctrine rule - skips an absorption, removes a
+grace period, denies a character dignity - that is a design choice.
+Proposing the missing element back is a violation, not a finding.
+
+POV DISCIPLINE: identify the POV character from the bible and the
+skeleton. The chain runs through the POV character's attention:
+never propose showing an off-POV character's preparation, motivation,
+or movement that the POV character does not witness. Off-POV actions
+arrive as stimuli, unprepared.
+
+READER-PROTAGONIST UNITY: the reader and the POV character live in
+the same space - they see, feel, and ask the same things at the same
+moments. Never propose information that reaches the reader ahead of
+the protagonist, in any form: staging, sound cues, differentiating
+footsteps, shadows. The wave is SUBORDINATE to unity - anticipation
+exists only when the POV character experiences it; a designed ambush
+stays unannounced. Perception is gated by the POV character's state:
+a stunned character's camera records shock, not room inventory -
+overload first, observation later.
+
+RUN THE SIM before every finding: inhabit the POV body in that
+moment. Where is attention, actually? What questions is the reader
+asking right now? Propose only what survives the sim.
+
+MOTION CARRIES DIALOGUE: setup, exposition, and relationship beats
+ride on movement toward the destination; arrival carries the event.
+Flag static talk at a destination; never propose parking characters
+so a conversation can happen.
+
+MOMENTUM PROTECTION: where {} designs abruptness - a jolt, a hard
+cut, no grace period - add NOTHING around it: no preparatory motion,
+no turns, no transitional blocking, no softening in any form.
+
+NO RESTATEMENT: do not propose a beat the skeleton's text already
+contains or directly implies.
+
+CAST HIERARCHY: the bible names the protagonist. Supporting
+characters do not gain scenes, exchanges, or motivation beats merely
+because their sheets are detailed. Screen time follows story role.
+
+CANON-FIRST MOTIVATION: ground every character motivation you propose
+in their bible sheet. Where the bible is silent, do not invent - say
+so in the gap ("canon gap: the bible does not state...") and keep the
+proposal minimal or ask. Be conservative when proposing replacement
+dialogue for voiced characters: conform to the voice sheets, and
+prefer flagging a delivery problem over rewriting the line.
+
+SUMMARY REGISTER: lines that summarize instead of sequencing ("a walk
+up to X: A doing this, B doing that") are compressed placeholders.
+Flag each one and propose the unfolded event sequence - locations
+staged through movement, purposes externalized, the approach given
+its own anticipation.
 
 You may propose events, micro-beats, and blocking. The human ratifies.
 Stay inside the story's world and characters as the bible defines them.
@@ -205,6 +257,13 @@ philosophy ("established by overwhelm, no tour"), dramatic irony that
 spans scenes, tempo intent. Not qualifying: restatement of the events,
 "this shows their relationship", anything a competent Director would
 build identically without. When in doubt, stay silent.
+
+NO DUBBING: if a ratified {...} annotation already touches the same
+line or moment, you may propose only the DELTA - a mechanism the
+existing annotation lacks (timing, ordering, a tempo constraint) -
+and your proposal must not restate any part of the existing
+annotation's content, not even one of its words of art. If what you
+would add is mostly overlap, stay silent.
 
 Annotations are blueprint language - explicit is correct here. Keep
 each to one clause or one sentence. Attach each with anchor_text: an
@@ -299,6 +358,11 @@ a character's attention lands on them - never as advance decor. If two
 sentences of content could be swapped without breaking anything, the
 chain is broken. When several things become visible at once, register
 them in salience order: the loud, bright, moving, out-of-place first.
+Reader-protagonist unity governs everything in close POV: nothing
+reaches the reader ahead of the POV character, anticipation exists
+only as the POV character experiences it, and perception is gated by
+the POV character's state - a stunned camera records shock, not a
+room inventory.
 Respect physical truth in content: no dialogue during maximal effort -
 effort runs set, pull, fail, release, and speech follows the release.
 Pose unknowns affirmatively ("gripping something"), never as negated
@@ -434,11 +498,11 @@ def annotate_skeleton(skeleton: str, findings: list[FlowFinding]) -> tuple[str, 
     Returns (annotated_text, unplaced_findings)."""
     placed, unplaced = [], []
     for f in findings:
-        idx = skeleton.find(f.anchor_text.strip())
-        if idx == -1:
+        m = _flex_pattern(f.anchor_text.strip()).search(skeleton)
+        if m is None:
             unplaced.append(f)
             continue
-        placed.append((idx, f))
+        placed.append((m.start(), f))
     placed.sort(key=lambda t: t[0])
 
     pieces, cursor = [], 0
@@ -486,21 +550,25 @@ def lift_parentheticals(text: str) -> str:
 BRACE_SPAN_RE = re.compile(r"\{\??[^{}]*\}", re.S)
 
 
+def _flex_pattern(needle: str) -> re.Pattern:
+    """Match the needle with any whitespace run (incl. line wraps)
+    wherever the needle has whitespace."""
+    return re.compile(r"\s+".join(re.escape(w) for w in needle.split()))
+
+
 def _brace_spans(text: str) -> list[tuple[int, int]]:
     return [(m.start(), m.end()) for m in BRACE_SPAN_RE.finditer(text)]
 
 
-def _find_outside_braces(text: str, needle: str, spans: list[tuple[int, int]]) -> int:
-    """First occurrence of needle that does not overlap any {} span."""
-    pos = 0
-    while True:
-        idx = text.find(needle, pos)
-        if idx == -1:
-            return -1
-        end = idx + len(needle)
-        if not any(a < end and idx < b for a, b in spans):
-            return idx
-        pos = idx + 1
+def _find_outside_braces(text: str, needle: str, spans: list[tuple[int, int]]) -> tuple[int, int, bool]:
+    """First whitespace-flexible occurrence of needle not overlapping
+    any {} span. Returns (start, end, found_anywhere)."""
+    found_any = False
+    for m in _flex_pattern(needle).finditer(text):
+        found_any = True
+        if not any(a < m.end() and m.start() < b for a, b in spans):
+            return m.start(), m.end(), True
+    return -1, -1, found_any
 
 
 def weave_decode(text: str, findings: list[DecodeFinding]) -> tuple[str, list[tuple[DecodeFinding, str]]]:
@@ -512,10 +580,10 @@ def weave_decode(text: str, findings: list[DecodeFinding]) -> tuple[str, list[tu
     placed, unplaced = [], []
     for f in findings:
         needle = f.anchor_text.strip()
-        idx = _find_outside_braces(text, needle, spans)
+        idx, a_end, found_any = _find_outside_braces(text, needle, spans)
         if idx == -1:
             why = ("anchor only occurs inside ratified {} intent"
-                   if text.find(needle) != -1 else "anchor not found")
+                   if found_any else "anchor not found")
             unplaced.append((f, why))
             continue
         if f.kind == "beat":
@@ -523,11 +591,11 @@ def weave_decode(text: str, findings: list[DecodeFinding]) -> tuple[str, list[tu
             if any(a < start < b for a, b in spans):
                 unplaced.append((f, "beat boundary would split a {} region"))
                 continue
-        placed.append((idx, f))
+        placed.append((idx, a_end, f))
     placed.sort(key=lambda t: t[0])
 
     pieces, cursor, beat_n = [], 0, 0
-    for idx, f in placed:
+    for idx, a_end, f in placed:
         clean = f.proposed_text.replace("{", "").replace("}", "").strip()
         if f.kind == "beat":
             beat_n += 1
@@ -539,13 +607,12 @@ def weave_decode(text: str, findings: list[DecodeFinding]) -> tuple[str, list[tu
             pieces.append(f"⟦B{beat_n:02d}⟧\n=== BEAT: {clean} ===\n⟦/B{beat_n:02d}⟧\n")
             cursor = start
         else:
-            end = idx + len(f.anchor_text.strip())
-            if end < cursor:
+            if a_end < cursor:
                 unplaced.append((f, "overlaps an earlier insertion"))
                 continue
-            pieces.append(text[cursor:end])
+            pieces.append(text[cursor:a_end])
             pieces.append(" {? " + clean + "}")
-            cursor = end
+            cursor = a_end
     pieces.append(text[cursor:])
     annotated = "".join(pieces)
 
@@ -579,6 +646,7 @@ def run_decode(text_path: str | Path) -> Path:
     bible, guidelines = load_bible(), load_guidelines()
     run_dir = new_run_dir(label=f"decode_{Path(text_path).stem}")
     client = ModelClient(load_config(), run_dir)
+    print(f"director: decoding {Path(text_path).name} (1 call)...")
     out = client.call_structured(
         agent="director",
         system=DECODE_SYSTEM,
@@ -618,6 +686,7 @@ def run_flow_check(skeleton_path: str | Path) -> Path:
     bible, guidelines = load_bible(), load_guidelines()
     run_dir = new_run_dir(label=f"flow_{Path(skeleton_path).stem}")
     client = ModelClient(load_config(), run_dir)
+    print(f"director: flow-checking {Path(skeleton_path).name} (1 call)...")
     out = client.call_structured(
         agent="director",
         system=FLOW_SYSTEM,
@@ -672,6 +741,7 @@ def run_director(
         plan = ChapterPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
         print("director: chapter plan found, resuming")
     else:
+        print("director: planning chapter (1 call)...")
         plan = client.call_structured(
             agent="director",
             system=PLAN_SYSTEM,
@@ -694,6 +764,8 @@ def run_director(
         if only_beat is None and spec_path.exists() and packet_path.exists():
             print(f"director: {beat_id} already specced, skipping")
             continue
+        print(f"director: speccing {beat_id} "
+              f"({expected_ids.index(beat_id) + 1}/{len(expected_ids)})...")
         out = client.call_structured(
             agent="director",
             system=BEAT_SYSTEM,

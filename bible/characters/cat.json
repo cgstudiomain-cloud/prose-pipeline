@@ -1,15 +1,17 @@
 {
   "name": "Cat",
   "register": "fable name, no article",
-  "identity": "Domestic guardian.",
+  "identity": "Domestic guardian - Jara's witch companion; guards the household and Mila. Sibling-type dynamic with Mila: the overbearing elder sibling.",
   "voice": "Dry, economical, understated. Sighs instead of arguing. Does not finish sentences when the situation is obvious. Plain statements, no editorial, never raises his voice.",
   "posture": "Quadruped by default - feline dignity; rises to two legs only when handling objects demands it.",
   "traits": [
     "improvises lies badly but commits to them ('It called to me')",
     "physical dignity matters; recovers quickly when unbalanced",
-    "quietly astonished the blade answered him (outro)"
+    "quietly astonished the blade answered him (outro)",
+    "in ch01 he crosses the portal after Mila, off camera - either sent by Jara as a helping hand or self-decided as her guardian (which of the two is open canon)"
   ],
   "debts": [
     "middle of book must earn (or deliberately mystify) why the sword answers him"
-  ]
+  ],
+  "role": "Supporting character in book 2."
 }

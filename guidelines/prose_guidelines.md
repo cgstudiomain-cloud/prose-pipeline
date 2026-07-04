@@ -102,6 +102,15 @@ crosses, or reacts to them — never as standalone description. The
 room is revealed by moving through it. If nobody interacts with it in
 this beat and it stages nothing, it does not exist.
 
+## 4a. Motion carries dialogue
+
+Setup, exposition, and relationship beats ride on movement toward the
+destination; the destination carries the event. Talk it over on the
+way to the bus stop - when the bus arrives, it is send-off time.
+Characters are never parked somewhere so a conversation can happen;
+if they are standing still and talking, either the stillness is an
+event or the scene is misstaged.
+
 ## 5. Layers — text, context, subtext
 
 - Text: what is said and done. This is all the narrator gives.
@@ -179,6 +188,10 @@ response, attention -> object, or continuous motion.
   because the sound came from there.
 - Reactions are earned: nothing on the page reacts to something the
   reader has not yet been given.
+- In close POV, the chain runs through the POV character's attention.
+  Off-POV characters get no on-page preparation before they claim
+  attention - their action arrives AS the stimulus. The camera does
+  not cut away to show another character winding up.
 
 The test is mechanical: if two adjacent sentences can be swapped
 without breaking anything, the chain is broken there — rewrite until
@@ -227,3 +240,24 @@ The same law governs space: characters cross rooms in real time, hold
 the positions the scene put them in, and speak at distances speech can
 cover. Blocking is continuous — a character is where the last shot
 left him until the camera moves him.
+
+## 11. Reader–protagonist unity
+
+The protagonist and the reader live in the same space: the page. What
+they see, feel, and the questions they ask must be the same.
+
+- The reader receives only what the POV character receives, when they
+  receive it. No information arrives for the reader ahead of the
+  protagonist - not as staging, not as a sound cue, not as a shadow.
+- The wave is SUBORDINATE to unity: anticipation exists only when the
+  POV character experiences it. A designed ambush stays an ambush for
+  the reader because it is one for the protagonist.
+- Perception is gated by the POV character's state. A stunned camera
+  records shock - body, fragments, the floor under the paws or palms.
+  The room arrives when the character becomes capable of receiving a
+  room. Overload first; observation later.
+
+The test - run the sim: inhabit the POV body in the moment. Where is
+attention, actually? What questions is the reader asking right now?
+(You okay? Where are we? Where did the fox go?) Write, stage, and
+propose only what survives that sim.

@@ -1,0 +1,17 @@
+{
+  "setting": "Two connected worlds of one story: Mila's village side (the witch cottage, the Order ruins by the Great Tree) and whale-city, reached through the Order's old portal network.",
+  "locations": {
+    "witch_cottage": "Jara's cottage on the edge of the village where Mila grew up; healing practice with herbs.",
+    "order_ruins": "Ruins of the Order by the Great Tree (established in book 1). A gate tower with an operational portal gate into the Order's old travel network.",
+    "whale_city": "The city on the far side of the portal. The palace stands here.",
+    "palace": "Royal palace in whale-city. Throne room with pillars and tall windows, a main entrance of tall double doors, and a small service door to one side. Narrow, cluttered service corridors run behind it toward the kitchens. The portal arrival chamber (gate-room) is in a closed-off section of the palace."
+  },
+  "canon_facts": [
+    "The Order's portal network still functions; crossings are rough - a 'landing' that can be failed.",
+    "The magic sword cannot be drawn by just anyone; it refuses most who try.",
+    "Stealing the magic sword is a capital crime punishable by death.",
+    "The Firebird holds authority in the palace and commands the guards; her eyes glow amber when angered and grow cold when insulted.",
+    "By the book's end: the sword drew for Cat (soft click, a third of the blade, dark polished metal); the sword and the crown are in the Firebird's keeping.",
+    "Cat and Fox use the palace service corridors; the Firebird enters through the main doors."
+  ]
+}

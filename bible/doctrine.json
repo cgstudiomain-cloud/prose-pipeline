@@ -1,0 +1,25 @@
+{
+  "audience": "middle grade",
+  "register": "documentary, camera-objective narration; humor arises from events and dialogue only, never from the narrator",
+  "notes": [
+    "the narrator is a transparent witness: no interpretation, no metaphor, no personification, no judgment",
+    "dialogue carries the scenes; narration stages and records",
+    "menace is never graphic",
+    "animals are people-shaped in behavior; do not over-explain the magic"
+  ],
+  "naming": {
+    "rule": "Two registers. Fable-named animals are capitalized as personal names: Cat and Fox take no article; the Firebird and the King keep the definite article (unique/titular beings); direct address drops the article. Humans carry personal names (Mila, Jara). Relational nouns stay common and lowercase: 'her aunt', 'the guards'. One form per character, everywhere in narration.",
+    "canonical": {
+      "cat": "Cat",
+      "fox": "Fox",
+      "firebird": "the Firebird",
+      "king": "the King",
+      "mila": "Mila",
+      "jara": "Jara",
+      "jaroslava": "Jaroslava"
+    }
+  },
+  "anatomy": {
+    "rule": "Anthropomorphic convention: the grasping extremity is a paw, never a hand. No fingers, knuckles, or fists - use claws, pads, toes, or 'tightened his grip'. Arms vs forelegs follows posture in the moment: bipedal action allows arms; quadruped motion uses forelegs and hind legs. Shared anatomy (shoulders, chest, jaw, ears, tail) is always fine. Humans are humans. Birds have wings and talons, never arms or paws."
+  }
+}

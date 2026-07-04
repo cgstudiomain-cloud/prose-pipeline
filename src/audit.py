@@ -93,6 +93,7 @@ BANNED = [
     (r"\b(?:did|does)\s*(?:not|n't)\s+(?:notice|see|hear|realize|recognize)\b",
      "negated perception - pose the unknown affirmatively"),
 ]
+BLUEPRINT_RE = re.compile(r"[{}⟦⟧]")
 REVIEW = [
     (r"\blike\s+(?:a|an|the|something|someone)\b", "possible simile"),
     (r"\b(?:kind|sort)\s+of\b", "hedged phrasing"),
@@ -116,6 +117,13 @@ def check_constructions(narration: str) -> list[Finding]:
             out.append(Finding(check="camera", severity="review",
                                snippet=snippet_at(narration, m.start(), m.end()), note=note))
     return out
+
+
+def check_blueprint_leak(prose: str) -> list[Finding]:
+    return [Finding(check="blueprint", severity="error",
+                    snippet=snippet_at(prose, m.start(), m.end()),
+                    note="blueprint markup leaked into prose")
+            for m in BLUEPRINT_RE.finditer(prose)]
 
 
 def check_naming(narration: str, canonical: dict[str, str]) -> list[Finding]:
@@ -223,12 +231,7 @@ def check_spec(spec: BeatSpec) -> list[Finding]:
 # ------------------------------------------------------------ pipeline
 
 
-def load_naming(path: str | Path = "bible/bible.json") -> dict[str, str]:
-    p = Path(path)
-    if not p.exists():
-        return {}
-    bible = json.loads(p.read_text(encoding="utf-8"))
-    return bible.get("style", {}).get("naming", {}).get("canonical", {})
+from src.bible import load_naming  # noqa: E402
 
 
 def audit_beat(run_dir: Path, beat_id: str) -> AuditReport:
@@ -241,7 +244,8 @@ def audit_beat(run_dir: Path, beat_id: str) -> AuditReport:
     spec = BeatSpec.model_validate_json((beat_dir / "01_beat_spec.json").read_text(encoding="utf-8"))
 
     narration = narration_only(draft.prose)
-    findings = (check_constructions(narration)
+    findings = (check_blueprint_leak(draft.prose)
+                + check_constructions(narration)
                 + check_naming(narration, load_naming())
                 + check_anatomy(narration)
                 + check_length(draft, spec)

@@ -1,0 +1,13 @@
+{
+  "name": "Fox",
+  "register": "fable name, no article",
+  "identity": "Trickster. Operated alone in book 1.",
+  "voice": "Fast, deflecting, opportunistic, unashamed. Jokes under pressure. Justifies himself mid-action. Treats theft as a reasonable business decision.",
+  "posture": "Shifts bipedal whenever he is working or scheming - part of his character; drops to four legs to move fast.",
+  "traits": [
+    "self-propelled: nobody sends Fox, he inserts himself where there's treasure",
+    "plans escape routes reflexively",
+    "wears defeat theatrically"
+  ],
+  "debts": []
+}

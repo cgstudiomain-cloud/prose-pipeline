@@ -1,0 +1,10 @@
+{
+  "name": "the palace guards",
+  "register": "relational, lowercase",
+  "identity": "Recurring background characters - 'extras with a face'. The same guards may recur from the ch01 gate-room alarm to the outro escort.",
+  "traits": [
+    "exchange nervous or confused glances - a reader surrogate, never editorializing",
+    "one shouts 'In here! There are more of them!' at the ch01 landing"
+  ],
+  "debts": []
+}

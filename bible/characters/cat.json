@@ -1,0 +1,15 @@
+{
+  "name": "Cat",
+  "register": "fable name, no article",
+  "identity": "Domestic guardian.",
+  "voice": "Dry, economical, understated. Sighs instead of arguing. Does not finish sentences when the situation is obvious. Plain statements, no editorial, never raises his voice.",
+  "posture": "Quadruped by default - feline dignity; rises to two legs only when handling objects demands it.",
+  "traits": [
+    "improvises lies badly but commits to them ('It called to me')",
+    "physical dignity matters; recovers quickly when unbalanced",
+    "quietly astonished the blade answered him (outro)"
+  ],
+  "debts": [
+    "middle of book must earn (or deliberately mystify) why the sword answers him"
+  ]
+}

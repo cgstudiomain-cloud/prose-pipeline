@@ -85,6 +85,8 @@ Rules:
 - Use the staging elements given in each movement. Do not add staging
   of your own unless it has a clear function; texture without function
   is cut.
+- Text inside {braces} anywhere in the spec is blueprint intent:
+  obey it, never transcribe its wording into prose.
 - Staging FUNCTIONS are the Director's reasoning, never yours to
   print: do not surface a function, a plant, or the connection it
   documents in narration. If the evidence is staged, the reader makes

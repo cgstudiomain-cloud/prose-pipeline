@@ -29,6 +29,8 @@ agents:
   copy_editor:
     model: claude-haiku-4-5-20251001
     temperature: 0.2
+  spark:
+    temperature: 0.95        # sparks want heat
 
 pipeline:
   max_revision_loops: 2

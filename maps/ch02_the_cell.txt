@@ -1,0 +1,9 @@
+=== CHAPTER: ch02_the_cell ===
+{actors: Mila, Cat, Fox(arrives at the end); tone: gag, pressure-cooker two-hander; speed: slow, an exhale after ch01's sprint; job: trio reunited at the bottom, "how do we get out" opened}
+START: thrown in prison - Mila and cat locked in a cell
+1. Mila and cat talk, it'll be fun, she said.
+2. ???
+3. turns out they are in the cell (reveal) in prison
+4. how are we getting out of here? and where's fox?
+5. ???
+END: corridor door opens, guards toss fox in the cell across - one problem solved, trio at the bottom together
